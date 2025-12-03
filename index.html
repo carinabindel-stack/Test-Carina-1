@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LinkedIn Post Insights (Client-only)</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="eyebrow">CIRCPACK Social Toolkit</p>
+        <h1>LinkedIn Post Insights</h1>
+        <p>
+          Upload a JSON export of your LinkedIn posts (with engagement metrics) and
+          instantly discover which themes, formats, and posting habits drive the highest
+          interaction rates—no backend required.
+        </p>
+        <div class="hero__actions">
+          <label class="file-input">
+            <span>Upload LinkedIn JSON</span>
+            <input id="fileInput" type="file" accept="application/json" />
+          </label>
+          <button id="loadSampleBtn" type="button" class="ghost">
+            Load sample data
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel">
+        <h2>Analysis settings</h2>
+        <form id="controlsForm" class="controls">
+          <label>
+            Top posts to highlight
+            <input type="number" id="topN" min="1" max="20" value="5" />
+          </label>
+          <label>
+            Lookback window (days)
+            <input type="number" id="lookback" min="7" max="730" value="365" />
+          </label>
+          <label class="textarea-label">
+            Custom categories (optional JSON map: category -> keywords[])
+            <textarea id="categoryConfig" placeholder='{"events":["event","booth"]}'></textarea>
+          </label>
+          <button id="analyzeBtn" type="submit">Analyze posts</button>
+        </form>
+        <p class="help">
+          Data privacy: everything happens locally in your browser. Tokens are never sent
+          anywhere. Use a LinkedIn export from your own tenant or the provided sample.
+        </p>
+      </section>
+
+      <section id="alerts"></section>
+
+      <section class="panel" id="summaryPanel" hidden>
+        <h2>Engagement overview</h2>
+        <div class="summary-grid">
+          <article>
+            <p class="label">Analyzed posts</p>
+            <p class="metric" id="postsAnalyzed">0</p>
+            <p class="sub" id="postsFetched"></p>
+          </article>
+          <article>
+            <p class="label">Timeframe</p>
+            <p class="metric" id="timeframe">—</p>
+          </article>
+          <article>
+            <p class="label">Leading categories</p>
+            <ul id="topCategories"></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="topPostsPanel" hidden>
+        <h2>Most successful posts</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Engagement rate</th>
+                <th>Interactions</th>
+                <th>Categories</th>
+              </tr>
+            </thead>
+            <tbody id="topPosts"></tbody>
+          </table>
+        </div>
+        <p class="hint">
+          Engagement rate = (likes + comments + shares + clicks) / impressions.
+        </p>
+      </section>
+
+      <section class="panel" id="traitsPanel" hidden>
+        <h2>Shared traits of top performers</h2>
+        <div class="traits-grid">
+          <article>
+            <h3>Content profile</h3>
+            <ul id="traitCategories"></ul>
+          </article>
+          <article>
+            <h3>Media mix</h3>
+            <ul id="traitMedia"></ul>
+          </article>
+          <article>
+            <h3>Posting cadence</h3>
+            <ul id="traitDays"></ul>
+          </article>
+          <article>
+            <h3>Hashtags</h3>
+            <ul id="traitHashtags"></ul>
+          </article>
+          <article class="full">
+            <h3>Copy stats</h3>
+            <ul id="traitAverages" class="traits-inline"></ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Built with HTML, CSS, and vanilla JavaScript. Connect to live LinkedIn data by
+        exporting posts via the LinkedIn Marketing API or reuse the sample dataset.
+      </p>
+    </footer>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
